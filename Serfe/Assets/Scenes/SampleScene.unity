@@ -202,6 +202,7 @@ MonoBehaviour:
   - {fileID: 2605311521384670999, guid: 9304aafae39893a48b8fb085c47563d4, type: 3}
   - {fileID: 2605311521384670999, guid: 6f7a56239cbc97c4ca34104c6c71bc13, type: 3}
   - {fileID: 2605311521384670999, guid: 6f515090713c9144a8f5b67c873a7609, type: 3}
+  - {fileID: 2605311521384670999, guid: 8ebfb83993f34de498429838712680ce, type: 3}
   _tileParent: {fileID: 963588836}
 --- !u!114 &234467429
 MonoBehaviour:
@@ -476,7 +477,7 @@ MonoBehaviour:
     m_Bits: 0
   IgnoreTag: 
   CameraRadius: 0.2
-  DampingIntoCollision: 0
+  DampingIntoCollision: 2
   DampingFromCollision: 2
 --- !u!114 &369914547
 MonoBehaviour:
@@ -494,8 +495,8 @@ MonoBehaviour:
   m_LookaheadTime: 0
   m_LookaheadSmoothing: 0
   m_LookaheadIgnoreY: 0
-  m_HorizontalDamping: 0.5
-  m_VerticalDamping: 0.5
+  m_HorizontalDamping: 1
+  m_VerticalDamping: 1
   m_ScreenX: 0.5
   m_ScreenY: 0.5
   m_DeadZoneWidth: 0
@@ -658,7 +659,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -2832,7 +2833,7 @@ CharacterController:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Height: 1.79
   m_Radius: 0.5
@@ -2860,26 +2861,26 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 2
-      outSlope: 2
+      inSlope: 1.8325574
+      outSlope: 1.8325574
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.5
-      value: 1
-      inSlope: -0.048347842
-      outSlope: -0.048347842
+      time: 0.48115262
+      value: 0.8817398
+      inSlope: 0.76751226
+      outSlope: 0.76751226
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.23536193
+      outWeight: 0.15146163
     - serializedVersion: 3
       time: 1
-      value: 0
-      inSlope: -2
-      outSlope: -2
+      value: 1
+      inSlope: 0.22792871
+      outSlope: 0.22792871
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -2887,7 +2888,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _jumpDuration: 0.4
+  _rigidBody: {fileID: 419952780}
+  _jumpDuration: 0.5
   _speed: 10
 --- !u!137 &137166910293679169
 SkinnedMeshRenderer:

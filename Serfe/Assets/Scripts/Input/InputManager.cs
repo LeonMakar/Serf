@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Zenject;
 
 public class InputManager : MonoBehaviour
 {
@@ -10,6 +11,13 @@ public class InputManager : MonoBehaviour
 
     #endregion
     private StandartInput _standartInput;
+    private EventBus _eventBus;
+
+    [Inject]
+    private void Construct(EventBus eventBus)
+    {
+        _eventBus = eventBus;
+    }
 
     private void Awake()
     {
@@ -21,6 +29,18 @@ public class InputManager : MonoBehaviour
         _standartInput.Enable();
         _standartInput.Standart.Enable();
         Debug.Log("Тач включеё");
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+            _eventBus.OnLeftMoveSignalStarted();
+
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+            _eventBus.OnRightMoveSignalStarted();
+
+
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+            _eventBus.OnJumpMoveSignalStarted();
     }
 
     private void OnDisable()

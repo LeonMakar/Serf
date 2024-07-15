@@ -124,7 +124,7 @@ MonoBehaviour:
   m_Forward: 2
   m_PositionOffset:
     setup: 1
-    min: {x: -3.56, y: -0.08, z: 0}
+    min: {x: -3.56, y: 0, z: 0}
     max: {x: 3, y: 0.6, z: 0}
     randomX: 0
     randomY: 0
@@ -140,8 +140,8 @@ MonoBehaviour:
     space: 0
   m_ScaleOffset:
     setup: 1
-    min: {x: 6, y: 0, z: 0}
-    max: {x: 6, y: 0, z: 0}
+    min: {x: 6, y: 0, z: 0.1}
+    max: {x: 6, y: 0, z: 0.33}
     randomX: 0
     randomY: 0
     randomZ: 0
