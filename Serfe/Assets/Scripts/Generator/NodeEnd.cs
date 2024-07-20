@@ -12,7 +12,6 @@ public class NodeEnd : MonoBehaviour
             _nodeGenerator.GenerateNewTile();
         else if (other.gameObject.layer == 7)
         {
-            Debug.Log("Машина вошла в тригер");
 
             if (other.transform.parent.TryGetComponent(out MoovingBonus movingBonus))
             {

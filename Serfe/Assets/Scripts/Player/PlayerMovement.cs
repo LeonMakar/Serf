@@ -1,7 +1,5 @@
 using DG.Tweening;
-using System;
 using System.Collections;
-using TMPro;
 using UnityEngine;
 using Zenject;
 
@@ -28,15 +26,23 @@ public class PlayerMovement : MonoBehaviour
         _eventBus.OnJumpMoveSignalStarted += OnJump;
         _eventBus.OnLeftMoveSignalStarted += OnLeftMove;
         _eventBus.OnRightMoveSignalStarted += OnRightMove;
+        _eventBus.OnDownMoveSignalStarted += OnMoveDown;
     }
 
     private void FixedUpdate()
     {
-        //_characterController.SimpleMove(_moovingDirection * _speed);
-        //_characterController.Move(Vector3.up * 9.81f * Time.fixedDeltaTime);
         _rigidBody.MovePosition(_rigidBody.position + (_moovingDirection * (_speed * Time.deltaTime)));
         _rigidBody.MoveRotation(Quaternion.identity);
+    }
 
+    private void OnMoveDown()
+    {
+        Ray ray = new Ray(transform.position, Vector3.down);
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, 15))
+        {
+            StopCoroutine(_cashedCoroutine);
+            _rigidBody.DOMoveY(hitInfo.transform.position.y, _jumpDuration);
+        }
     }
 
     private void OnJump()
@@ -50,9 +56,7 @@ public class PlayerMovement : MonoBehaviour
         switch (_currentPosition)
         {
             case 0:
-
                 _rigidBody.DOMoveX(_rightPosition, 0.3f).SetEase(Ease.Linear);
-                
                 _currentPosition = _rightPosition;
                 break;
             case -1.5f:
@@ -67,7 +71,7 @@ public class PlayerMovement : MonoBehaviour
     private void OnLeftMove()
     {
         switch (_currentPosition)
-        {   
+        {
             case 0:
                 _rigidBody.DOMoveX(_leftPosition, 0.3f).SetEase(Ease.Linear);
                 _currentPosition = _leftPosition;
@@ -95,4 +99,5 @@ public class PlayerMovement : MonoBehaviour
         }
 
     }
+
 }

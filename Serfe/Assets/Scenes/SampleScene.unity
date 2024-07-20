@@ -987,6 +987,7 @@ GameObject:
   - component: {fileID: 4111819544466271}
   - component: {fileID: 95389170654835313}
   - component: {fileID: 419952780}
+  - component: {fileID: 95389170654835317}
   - component: {fileID: 419952781}
   - component: {fileID: 95389170654835314}
   - component: {fileID: 95389170654835316}
@@ -2793,10 +2794,10 @@ Animator:
   m_GameObject: {fileID: 1045401134681275}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 2dc7b382d25903545b405802eb2198ab, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 10e30bc7bafa6464c9a209dab7faf7e0, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -2891,6 +2892,19 @@ MonoBehaviour:
   _rigidBody: {fileID: 419952780}
   _jumpDuration: 0.5
   _speed: 10
+--- !u!114 &95389170654835317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1045401134681275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f6c011badb16974b9f1e2b8209e0699, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 95389170654835313}
 --- !u!137 &137166910293679169
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0

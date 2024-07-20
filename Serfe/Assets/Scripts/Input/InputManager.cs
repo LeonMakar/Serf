@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Zenject;
@@ -12,6 +13,10 @@ public class InputManager : MonoBehaviour
     #endregion
     private StandartInput _standartInput;
     private EventBus _eventBus;
+    private Vector3 _swipeEndPosition;
+    private Vector3 _swipeStartPosition;
+    private bool _isTouchStarted;
+    private Touch _touch;
 
     [Inject]
     private void Construct(EventBus eventBus)
@@ -28,10 +33,33 @@ public class InputManager : MonoBehaviour
     {
         _standartInput.Enable();
         _standartInput.Standart.Enable();
-        Debug.Log("Тач включеё");
     }
     private void Update()
     {
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == UnityEngine.TouchPhase.Began)
+        {
+            _swipeStartPosition = Input.GetTouch(0).position;
+        }
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == UnityEngine.TouchPhase.Ended)
+        {
+
+            _swipeEndPosition = Input.GetTouch(0).position;
+            Vector2 direction = _swipeEndPosition - _swipeStartPosition;
+            direction.Normalize();
+            float directionThreshold = 0.9f;
+            
+            if (Vector2.Dot(Vector2.up, direction) > directionThreshold)
+                _eventBus.OnJumpMoveSignalStarted();
+            else if (Vector2.Dot(Vector2.down, direction) > directionThreshold)
+                _eventBus.OnDownMoveSignalStarted();
+            else if (Vector2.Dot(Vector2.right, direction) > directionThreshold)
+                _eventBus.OnRightMoveSignalStarted();
+            else if (Vector2.Dot(Vector2.left, direction) > directionThreshold)
+                _eventBus.OnLeftMoveSignalStarted();
+
+        }
+
+
         if (Input.GetKeyDown(KeyCode.LeftArrow))
             _eventBus.OnLeftMoveSignalStarted();
 
@@ -41,6 +69,25 @@ public class InputManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.UpArrow))
             _eventBus.OnJumpMoveSignalStarted();
+
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+            _eventBus.OnDownMoveSignalStarted();
+    }
+
+    private IEnumerator TouchCoroutine()
+    {
+        Vector2 direction = _swipeEndPosition - _swipeStartPosition;
+        float directionThreshold = 0.9f;
+        if (Vector2.Dot(Vector2.up, direction) > directionThreshold)
+            Debug.Log("SwipeUp");
+        else if (Vector2.Dot(Vector2.down, direction) > directionThreshold)
+            Debug.Log("SwipeDown");
+        else if (Vector2.Dot(Vector2.right, direction) > directionThreshold)
+            Debug.Log("SwipeRight");
+        else if (Vector2.Dot(Vector2.left, direction) > directionThreshold)
+            Debug.Log("SwipeLeft");
+        _isTouchStarted = false;
+        yield return null;
     }
 
     private void OnDisable()
@@ -67,6 +114,7 @@ public class InputManager : MonoBehaviour
     private void StartTouchPrimaryDetection(InputAction.CallbackContext context)
     {
         OnStartTouchEvent?.Invoke(context.ReadValue<Vector2>(), (float)context.time);
+        _eventBus.OnJumpMoveSignalStarted();
         Debug.Log("StartTouch");
 
     }
