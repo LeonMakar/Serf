@@ -1,3 +1,5 @@
+using Serfe.EventBusSystem;
+using Serfe.EventBusSystem.Signals;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -47,31 +49,34 @@ public class InputManager : MonoBehaviour
             Vector2 direction = _swipeEndPosition - _swipeStartPosition;
             direction.Normalize();
             float directionThreshold = 0.9f;
-            
+
             if (Vector2.Dot(Vector2.up, direction) > directionThreshold)
-                _eventBus.OnJumpMoveSignalStarted();
+                _eventBus.Invoke(new OnUpMoveSignal());
             else if (Vector2.Dot(Vector2.down, direction) > directionThreshold)
-                _eventBus.OnDownMoveSignalStarted();
+                _eventBus.Invoke(new OnDownMoveSignal());
             else if (Vector2.Dot(Vector2.right, direction) > directionThreshold)
-                _eventBus.OnRightMoveSignalStarted();
+                _eventBus.Invoke(new OnHorizontalMoveSignal(MovementType.Right));
             else if (Vector2.Dot(Vector2.left, direction) > directionThreshold)
-                _eventBus.OnLeftMoveSignalStarted();
+                _eventBus.Invoke(new OnHorizontalMoveSignal(MovementType.Left));
 
         }
 
 
         if (Input.GetKeyDown(KeyCode.LeftArrow))
-            _eventBus.OnLeftMoveSignalStarted();
+            _eventBus.Invoke(new OnHorizontalMoveSignal(MovementType.Left));
+
+
 
         if (Input.GetKeyDown(KeyCode.RightArrow))
-            _eventBus.OnRightMoveSignalStarted();
+            _eventBus.Invoke(new OnHorizontalMoveSignal(MovementType.Right));
 
 
         if (Input.GetKeyDown(KeyCode.UpArrow))
-            _eventBus.OnJumpMoveSignalStarted();
+            _eventBus.Invoke(new OnUpMoveSignal());
 
         if (Input.GetKeyDown(KeyCode.DownArrow))
-            _eventBus.OnDownMoveSignalStarted();
+            _eventBus.Invoke(new OnDownMoveSignal());
+
     }
 
     private IEnumerator TouchCoroutine()
@@ -114,7 +119,7 @@ public class InputManager : MonoBehaviour
     private void StartTouchPrimaryDetection(InputAction.CallbackContext context)
     {
         OnStartTouchEvent?.Invoke(context.ReadValue<Vector2>(), (float)context.time);
-        _eventBus.OnJumpMoveSignalStarted();
+        _eventBus.Invoke(new OnUpMoveSignal());
         Debug.Log("StartTouch");
 
     }

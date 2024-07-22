@@ -8,9 +8,9 @@ public class NodeEnd : MonoBehaviour
     public void Init(NodeGenerator nodeGenerator) => _nodeGenerator = nodeGenerator;
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 6)
+        if (other.gameObject.layer == GameConstants.PLAYER_LAYER)
             _nodeGenerator.GenerateNewTile();
-        else if (other.gameObject.layer == 7)
+        else if (other.gameObject.layer == GameConstants.MOOVING_BONUS_LAYER)
         {
 
             if (other.transform.parent.TryGetComponent(out MoovingBonus movingBonus))

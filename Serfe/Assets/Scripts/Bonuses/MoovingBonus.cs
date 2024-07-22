@@ -1,13 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
+using Serfe.Bonuses.Negative;
+using Serfe.Bonuses.Negative.Abstraction;
+using Serfe.PlayerSystems;
 using UnityEngine;
 using UnityEngine.Splines;
 
-public abstract class MoovingBonus : MonoBehaviour
+public abstract class MoovingBonus : MonoBehaviour, IObstacle
 {
+    [SerializeField] private WhenNotBeDamagedType _whenNotBeDamagedType;
     public BonusPosition BonusPosition;
     public SplineAnimate SplineAnimate;
 
+    public WhenNotBeDamagedType WhenNotBeDamagedType { get => _whenNotBeDamagedType; set { } }
+
+    public void ApllyDamage(IRunningDataConnector connector)
+    {
+        connector.GetRunningData()?.MinusHealth();
+    }
 
     public void StartSplineAnimate(SplineContainer splineContainer)
     {
