@@ -1,6 +1,7 @@
 using DG.Tweening;
 using Serfe.EventBusSystem;
 using Serfe.EventBusSystem.Signals;
+using System;
 using System.Collections;
 using UnityEngine;
 using Zenject;
@@ -19,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
     private EventBus _eventBus;
     private WaitForSeconds _delay = new WaitForSeconds(1);
     private OnScoreChangeSignal _scoreChangeSignal = new OnScoreChangeSignal();
+    private OnCheckPlayerPosition _playerPositionSignal = new OnCheckPlayerPosition();
     private bool _gameIsactive = true;
 
     [Inject]
@@ -41,7 +43,22 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         StartCoroutine(SendScoreCoroutine());
+        StartCoroutine(SendPlayerPosition());
     }
+
+    private string SendPlayerPosition()
+    {
+        while (true)
+        {
+            if (_gameIsactive)
+            {
+                _playerPositionSignal.Init(transform.position.z);
+                _eventBus?.Invoke<OnCheckPlayerPosition>(_playerPositionSignal);
+            }
+        }
+
+    }
+
     private void FixedUpdate()
     {
         _rigidBody.MovePosition(_rigidBody.position + (_moovingDirection * (_speed * Time.deltaTime)));

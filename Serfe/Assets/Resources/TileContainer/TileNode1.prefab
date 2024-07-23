@@ -288,7 +288,7 @@ Transform:
   m_GameObject: {fileID: 5891361251284564131}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 60}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -393,6 +393,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d021dbe017081984dba7da651e1cfc14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TileType: 0
   _leftSide: {fileID: 3626918389002873752}
   _rightSide: {fileID: 114003995012684522}
   <_leftSpline>k__BackingField: {fileID: 2022613731015110041}
@@ -712,7 +713,7 @@ MonoBehaviour:
     space: 0
   m_DeprecatedInstances: []
   m_AutoRefresh: 1
-  m_Seed: -1343131000
+  m_Seed: -2026746455
 --- !u!1 &7410802534232634682
 GameObject:
   m_ObjectHideFlags: 0
@@ -802,4 +803,4 @@ MonoBehaviour:
     space: 0
   m_DeprecatedInstances: []
   m_AutoRefresh: 1
-  m_Seed: -32444
+  m_Seed: -524943488

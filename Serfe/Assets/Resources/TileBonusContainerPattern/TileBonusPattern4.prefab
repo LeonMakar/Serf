@@ -408,6 +408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e971952c51518a747a40fe976dbbb053, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <BonusTileType>k__BackingField: 3
   <BonusesList>k__BackingField:
   - {fileID: 837565424740695070}
   - {fileID: 1905424456854050604}
@@ -1151,6 +1152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d27f1ac55fd48949a8eaa8c92a47f70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _whenNotBeDamagedType: 0
   BonusPosition: 2
   SplineAnimate: {fileID: 4634482357881429118}
 --- !u!1 &7441315235401358332

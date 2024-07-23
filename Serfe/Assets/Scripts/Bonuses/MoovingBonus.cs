@@ -23,7 +23,10 @@ public abstract class MoovingBonus : MonoBehaviour, IObstacle
         SplineAnimate.NormalizedTime = 0;
         SplineAnimate.Container = splineContainer;
         SplineAnimate.Play();
-
+    }
+    public void GameOver()
+    {
+        SplineAnimate.Pause();
     }
 
 }

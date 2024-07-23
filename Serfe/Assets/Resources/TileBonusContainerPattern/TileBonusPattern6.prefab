@@ -1012,6 +1012,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e971952c51518a747a40fe976dbbb053, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <BonusTileType>k__BackingField: 2
   <BonusesList>k__BackingField: []
   <MoovingBonusesList>k__BackingField: []
 --- !u!1 &7560223710572785157
