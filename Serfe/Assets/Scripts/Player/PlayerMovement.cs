@@ -1,7 +1,6 @@
 using DG.Tweening;
 using Serfe.EventBusSystem;
 using Serfe.EventBusSystem.Signals;
-using System;
 using System.Collections;
 using UnityEngine;
 using Zenject;
@@ -12,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Rigidbody _rigidBody;
     [SerializeField] private float _jumpDuration;
     [SerializeField] private float _jumpHight;
+    private float _cachedSpeed;
     [SerializeField] private float _speed;
 
     private float _currentPosition;
@@ -21,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
     private WaitForSeconds _delay = new WaitForSeconds(1);
     private OnScoreChangeSignal _scoreChangeSignal = new OnScoreChangeSignal();
     private OnCheckPlayerPosition _playerPositionSignal = new OnCheckPlayerPosition();
-    private bool _gameIsactive = true;
+    private bool _gameIsActive = false;
 
     [Inject]
     private void Construct(EventBus eventBus)
@@ -42,33 +42,52 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Start()
     {
+        _cachedSpeed = _speed;
         StartCoroutine(SendScoreCoroutine());
         StartCoroutine(SendPlayerPosition());
     }
 
-    private string SendPlayerPosition()
+    private IEnumerator SendPlayerPosition()
     {
         while (true)
         {
-            if (_gameIsactive)
+            if (_gameIsActive)
             {
                 _playerPositionSignal.Init(transform.position.z);
                 _eventBus?.Invoke<OnCheckPlayerPosition>(_playerPositionSignal);
+                yield return _delay;
             }
+            yield return _delay;
         }
 
     }
 
     private void FixedUpdate()
     {
-        _rigidBody.MovePosition(_rigidBody.position + (_moovingDirection * (_speed * Time.deltaTime)));
-        _rigidBody.MoveRotation(Quaternion.identity);
+        if (_gameIsActive)
+        {
+            _rigidBody.MovePosition(_rigidBody.position + (_moovingDirection * (_speed * Time.deltaTime)));
+            _rigidBody.MoveRotation(Quaternion.identity);
+        }
     }
 
     private void OnGameOver(OnGameOverSignal gameOverSignal)
     {
-        _speed = 0;
-        _gameIsactive = false;
+        if (gameOverSignal.IsGameOver)
+        {
+            _speed = 0;
+            _gameIsActive = false;
+            _rigidBody.isKinematic = true;
+        }
+        else
+        {
+            transform.position = Vector3.zero;
+            _speed = _cachedSpeed;
+            _gameIsActive = true;
+            _rigidBody.isKinematic = false;
+
+        }
+
     }
     private void OnHorizontalMove(OnHorizontalMoveSignal signal)
     {
@@ -142,7 +161,7 @@ public class PlayerMovement : MonoBehaviour
     {
         while (true)
         {
-            if (_gameIsactive)
+            if (_gameIsActive)
             {
                 float lastZPosition = transform.position.z;
                 yield return _delay;

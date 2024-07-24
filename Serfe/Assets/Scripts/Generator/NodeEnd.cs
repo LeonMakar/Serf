@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class NodeEnd : MonoBehaviour
 {
-    private NodeGenerator _nodeGenerator;
-    [SerializeField] TileAdjuster _tileAdjuster;
+    private TileGenerator _nodeGenerator;
+    [SerializeField] FoundationTile _tileAdjuster;
 
-    public void Init(NodeGenerator nodeGenerator) => _nodeGenerator = nodeGenerator;
+    public void Init(TileGenerator nodeGenerator) => _nodeGenerator = nodeGenerator;
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == GameConstants.PLAYER_LAYER)

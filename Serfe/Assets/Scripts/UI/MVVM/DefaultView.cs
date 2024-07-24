@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Serfe.MVVM
 {
@@ -7,6 +8,21 @@ namespace Serfe.MVVM
     {
         [SerializeField] private TextMeshProUGUI _moneyText;
         [SerializeField] private TextMeshProUGUI _scoreText;
+        [SerializeField] private Button _restartButtone;
+        [SerializeField] private GameObject _gameOverPanel;
+
+        private void Start()
+        {
+            _restartButtone.onClick.AddListener(_viewModel.OnViewRestartGameClicked);
+        }
+        public override void OnViewModelIsGameStartConditionChange(bool isGameStart)
+        {
+            if (isGameStart)
+                _gameOverPanel.SetActive(false);
+            else
+                _gameOverPanel.SetActive(true);
+
+        }
 
         public override void OnViewModelMoneyChange(int value)
         {

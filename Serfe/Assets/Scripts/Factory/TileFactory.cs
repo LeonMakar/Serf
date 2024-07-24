@@ -1,26 +1,44 @@
-using Serfe.Factory;
-using System;
-using System.Collections.Generic;
+using Serfe.TileContainer;
 using UnityEngine;
+using Zenject;
 
-public class TileFactory : IFactory
+namespace Serfe.Factory
 {
-    public Dictionary<Enum, TileAdjuster> PrefabsOfTileWhithType { get; private set; } = new Dictionary<Enum, TileAdjuster>();
-
-    public TileFactory(List<TileAdjuster> prefabsList)
+    public class TileFactory : IFactory
     {
-        foreach (var tileAdjuster in prefabsList)
-            PrefabsOfTileWhithType.Add(tileAdjuster.TileType, tileAdjuster);
-    }
+        private FoundationTile _foundationTile;
+        private DiContainer _container;
 
-    public GameObject Create(Enum tileType)
-    {
-        GameObject copyOfObject = GameObject.Instantiate(PrefabsOfTileWhithType[tileType].gameObject);
-        return copyOfObject;
-    }
+        public TileFactory(DiContainer diContainer)
+        {
+            _container = diContainer;
+        }
 
-    public GameObject Create()
-    {
-        throw new System.NotImplementedException();
+        public GameObject Create()
+        {
+            return null;
+        }
+
+        public GameObject Create(TileType tileType)
+        {
+            _foundationTile = _container.ResolveId<FoundationTile>(tileType);
+            if (_foundationTile != null)
+            {
+                FoundationTile foundationTile = GameObject.Instantiate(_foundationTile);
+                _container.Inject(foundationTile);
+                foreach (var item in foundationTile.TilePattern.BonusTiles)               
+                    _container.Inject(item);
+                
+
+                _foundationTile = null;
+                return foundationTile.gameObject;
+            }
+            else
+            {
+                Debug.LogErrorFormat($"Cannot Resolve FoundationTile with Id = {tileType}");
+                return null;
+            }
+
+        }
     }
 }

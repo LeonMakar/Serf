@@ -25,14 +25,6 @@ namespace Serfe.PlayerSystems
         {
             _runningData.ResetData();
         }
-
-        //private void OnCollisionEnter(Collision collision)
-        //{
-        //    if (collision.gameObject.TryGetComponent(out IObstacle obstacle))
-        //    {
-        //        obstacle.ApllyDamage(this);
-        //    }
-        //}
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.TryGetComponent(out IObstacle obstacle))

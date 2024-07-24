@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class CustomePool<T> where T : MonoBehaviour
 {
-    private List<T> _gameObjcetsList;
+    protected List<T> _gameObjcetsList;
 
     protected IFactory _factory;
 
 
-    protected void InitPool(IFactory factory, int startCountOfObjects)
+    public void InitPool(IFactory factory, int startCountOfObjects)
     {
         _gameObjcetsList = new List<T>();
         _factory = factory;
@@ -38,7 +38,7 @@ public class CustomePool<T> where T : MonoBehaviour
 
     public void DropBackToPool(T gameObject) => gameObject.gameObject.SetActive(false);
 
-    private T CreateGameObjectForPool()
+    protected virtual T CreateGameObjectForPool()
     {
 
         var prefabGameObject = _factory.Create();

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Splines;
 using Zenject;
 
-public class TileAdjuster : MonoBehaviour
+public class FoundationTile : MonoBehaviour
 {
     public TileType TileType;
     [SerializeField] private SplineInstantiate _leftSide;
@@ -12,6 +12,8 @@ public class TileAdjuster : MonoBehaviour
     [field: SerializeField] public SplineContainer _leftSpline { get; private set; }
     [field: SerializeField] public SplineContainer _midlleSpline { get; private set; }
     [field: SerializeField] public SplineContainer _rightSpline { get; private set; }
+    [field: SerializeField] public TilePattern TilePattern { get; private set; }
+
 
     [SerializeField] private NodeEnd _endNode;
     private EventBus _eventBus;
@@ -20,10 +22,9 @@ public class TileAdjuster : MonoBehaviour
     private void Construct(EventBus eventBus)
     {
         _eventBus = eventBus;
-
     }
 
-    public void RandomizeSidesOfNode(NodeGenerator nodeGenerator)
+    public void RandomizeSidesOfNode(TileGenerator nodeGenerator)
     {
         _leftSide.Randomize();
         _rightSide.Randomize();

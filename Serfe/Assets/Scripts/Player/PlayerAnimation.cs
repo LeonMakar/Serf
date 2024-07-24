@@ -29,7 +29,16 @@ public class PlayerAnimation
         _eventBus.Unsubscribe<OnUpMoveSignal>(Jump);
         _eventBus.Unsubscribe<OnDownMoveSignal>(Rolling);
     }
-    private void Death(OnGameOverSignal onGameOverSignal) => _animator.SetTrigger(_isDeath);
+    private void Death(OnGameOverSignal onGameOverSignal)
+    {
+        if (onGameOverSignal.IsGameOver)
+        {
+            _animator.SetBool(_isRolling, false);
+            _animator.SetTrigger(_isDeath);
+        }
+        else
+            _animator.SetBool(_isRunning, true);
+    }
     private void Rolling(OnDownMoveSignal onDownMoveSignal) => _animator.SetTrigger(_isRolling);
 
 
