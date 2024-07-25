@@ -5,6 +5,7 @@ namespace Serfe.CollectablesSystems
 {
     public class Coin : Collectables
     {
+        public bool IsStartMooving;
         [SerializeField] private int _moneyGiveAmmount;
         protected override void ActivateCollectablesAction(Collider other)
         {

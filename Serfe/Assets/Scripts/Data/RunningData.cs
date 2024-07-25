@@ -11,12 +11,16 @@ namespace Serfe.Models
     public class RunningData : ScriptableObject
     {
         private EventBus _eventBus;
+        public bool IsTramplineActivated;
 
         public ReactiveProperty<int> Money { get; private set; } = new ReactiveProperty<int>();
         public ReactiveProperty<int> Score { get; private set; } = new ReactiveProperty<int>();
         public ReactiveProperty<bool> IsGameStart { get; private set; } = new ReactiveProperty<bool>();
 
         public int Health { get; private set; } = 1;
+        [field: SerializeField] public int RunningSpeed = 10;
+        [field: SerializeField] public int TramplineDuration { get; private set; } = 10;
+
 
         [Inject]
         private void Construct(EventBus eventBus)
@@ -28,13 +32,26 @@ namespace Serfe.Models
 
         private void ChangeGameCondition(OnGameOverSignal signal)
         {
-            if (!signal.IsGameOver)
+            if (signal.IsGameOver)
+            {
+                IsGameStart.Value = false;
                 ResetData();
-            IsGameStart.Value = !signal.IsGameOver;
+            }
+            else
+            {
+                IsGameStart.Value = true;
+                RunningSpeed = 10;
+            }
         }
         public void ChangeGameCondition(bool isGameStart) => _eventBus.Invoke(new OnGameOverSignal(!isGameStart));
         private void ChangeScore(OnScoreChangeSignal signal) => Score.Value += signal.ScoreToAdd;
-        public void ResetData() => Health = 1;
+        public void ResetData()
+        {
+
+            Health = 1;
+        }
+
+
 
 
         public void MinusHealth()
@@ -54,5 +71,9 @@ namespace Serfe.Models
             if (score > 0)
                 Score.Value += score;
         }
+
+        public void SetHealthInvincible() => Health = 9999;
+        public void SetHealthStandart() => Health = 1;
+
     }
 }

@@ -1,3 +1,4 @@
+using Serfe.CollectablesSystems;
 using Serfe.EventBusSystem;
 using System.Collections.Generic;
 
@@ -35,8 +36,6 @@ namespace Serfe.TileContainer
         {
             if ((_elementKeyToDiactivate + 25) < onCheckPlayerSignal.PositionOfZCoordinate)
             {
-                UnityEngine.Debug.Log("firstKey = " + _elementKeyToDiactivate);
-                UnityEngine.Debug.Log("playerpost = " + onCheckPlayerSignal.PositionOfZCoordinate);
                 FoundationTile tileToDiactivate = _tileFoundationDictionary[_elementKeyToDiactivate];
                 _tileFoundationDictionary.Remove(_elementKeyToDiactivate);
                 DiactivationProccesFoundationTile(tileToDiactivate);
@@ -51,7 +50,11 @@ namespace Serfe.TileContainer
             {
                 item.gameObject.SetActive(false);
                 foreach (var bonus in item.BonusesList)
+                {
+                    if(bonus.TryGetComponent(out Coin coin))
+                        coin.IsStartMooving = false;
                     bonus.gameObject.SetActive(true);
+                }
             }
         }
 

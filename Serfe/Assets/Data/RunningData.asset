@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20477814ca4dace4b94d2e36caa3bc9d, type: 3}
   m_Name: RunningData
   m_EditorClassIdentifier: 
+  IsTramplineActivated: 0
+  <TramplineDuration>k__BackingField: 10

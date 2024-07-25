@@ -78,23 +78,6 @@ public class InputManager : MonoBehaviour
             _eventBus.Invoke(new OnDownMoveSignal());
 
     }
-
-    private IEnumerator TouchCoroutine()
-    {
-        Vector2 direction = _swipeEndPosition - _swipeStartPosition;
-        float directionThreshold = 0.9f;
-        if (Vector2.Dot(Vector2.up, direction) > directionThreshold)
-            Debug.Log("SwipeUp");
-        else if (Vector2.Dot(Vector2.down, direction) > directionThreshold)
-            Debug.Log("SwipeDown");
-        else if (Vector2.Dot(Vector2.right, direction) > directionThreshold)
-            Debug.Log("SwipeRight");
-        else if (Vector2.Dot(Vector2.left, direction) > directionThreshold)
-            Debug.Log("SwipeLeft");
-        _isTouchStarted = false;
-        yield return null;
-    }
-
     private void OnDisable()
     {
         _standartInput.Disable();
@@ -121,6 +104,5 @@ public class InputManager : MonoBehaviour
         OnStartTouchEvent?.Invoke(context.ReadValue<Vector2>(), (float)context.time);
         _eventBus.Invoke(new OnUpMoveSignal());
         Debug.Log("StartTouch");
-
     }
 }

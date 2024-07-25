@@ -1,22 +1,24 @@
 using DG.Tweening;
 using Serfe.EventBusSystem;
 using Serfe.EventBusSystem.Signals;
+using Serfe.Models;
 using System.Collections;
 using UnityEngine;
 using Zenject;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public float JumpHight;
+
     [SerializeField] private AnimationCurve _jumpCurve;
     [SerializeField] private Rigidbody _rigidBody;
     [SerializeField] private float _jumpDuration;
-    [SerializeField] private float _jumpHight;
     private float _cachedSpeed;
-    [SerializeField] private float _speed;
 
     private float _currentPosition;
     private Vector3 _moovingDirection = Vector3.forward;
     private Coroutine _cashedCoroutine;
+    private RunningData _runningData;
     private EventBus _eventBus;
     private WaitForSeconds _delay = new WaitForSeconds(1);
     private OnScoreChangeSignal _scoreChangeSignal = new OnScoreChangeSignal();
@@ -24,8 +26,9 @@ public class PlayerMovement : MonoBehaviour
     private bool _gameIsActive = false;
 
     [Inject]
-    private void Construct(EventBus eventBus)
+    private void Construct(EventBus eventBus, RunningData runningData)
     {
+        _runningData = runningData;
         _eventBus = eventBus;
         _eventBus.Subscrube<OnUpMoveSignal>(OnJump);
         _eventBus.Subscrube<OnDownMoveSignal>(OnMoveDown);
@@ -42,7 +45,6 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Start()
     {
-        _cachedSpeed = _speed;
         StartCoroutine(SendScoreCoroutine());
         StartCoroutine(SendPlayerPosition());
     }
@@ -66,7 +68,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_gameIsActive)
         {
-            _rigidBody.MovePosition(_rigidBody.position + (_moovingDirection * (_speed * Time.deltaTime)));
+            _rigidBody.MovePosition(_rigidBody.position + (_moovingDirection * (_runningData.RunningSpeed * Time.fixedDeltaTime)));
             _rigidBody.MoveRotation(Quaternion.identity);
         }
     }
@@ -75,17 +77,14 @@ public class PlayerMovement : MonoBehaviour
     {
         if (gameOverSignal.IsGameOver)
         {
-            _speed = 0;
             _gameIsActive = false;
             _rigidBody.isKinematic = true;
         }
         else
         {
             transform.position = Vector3.zero;
-            _speed = _cachedSpeed;
             _gameIsActive = true;
             _rigidBody.isKinematic = false;
-
         }
 
     }
@@ -152,7 +151,7 @@ public class PlayerMovement : MonoBehaviour
         {
             float jumpProgress = time / _jumpDuration;
 
-            _rigidBody.position = new Vector3(_rigidBody.position.x, currentHight + _jumpCurve.Evaluate(jumpProgress) * _jumpHight, _rigidBody.position.z);
+            _rigidBody.position = new Vector3(_rigidBody.position.x, currentHight + _jumpCurve.Evaluate(jumpProgress) * JumpHight, _rigidBody.position.z);
             time += Time.deltaTime;
             yield return null;
         }
